@@ -54,12 +54,17 @@ export const BOOKS: Book[] = [
 	},
 ];
 
-// Timing del vídeo (30 fps)
-export const INTRO = 70; // portada entrando
-export const COVER_FLIP = 14; // la portada se abre
-export const PER_PAGE = 14; // dwell + giro por página
-export const LAST_DWELL = 18; // última página quieta
+// Timing del vídeo (30 fps). El libro se abre a doble página y cada
+// pase de hoja consume dos imágenes (anverso y reverso de la hoja).
+export const INTRO = 60; // libro cerrado entrando
+export const OPEN = 26; // la cubierta se abre (180º)
+export const FLIP_DUR = 16; // giro de cada hoja
+export const FLIP_DWELL = 9; // pausa con la doble página quieta
+export const PER_FLIP = FLIP_DUR + FLIP_DWELL;
+export const LAST_DWELL = 20; // última doble página quieta
 export const OUTRO = 100; // cierre con CTA
 
+export const flipsOf = (book: Book) => Math.floor((book.pages - 1) / 2);
+
 export const totalDuration = (book: Book) =>
-	INTRO + COVER_FLIP + book.pages * PER_PAGE + LAST_DWELL + OUTRO;
+	INTRO + OPEN + flipsOf(book) * PER_FLIP + LAST_DWELL + OUTRO;

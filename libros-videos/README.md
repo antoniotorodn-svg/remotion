@@ -29,6 +29,13 @@ Sin esa variable, Remotion descarga/usa su propio Chrome (válido en local).
 Los MP4 resultantes se copian a `nutricionistaio/public/libros/<slug>/video.mp4`, donde los
 usa la ficha de producto `/libros/<slug>/`.
 
+## Portadas
+
+Las portadas de la colección se generan desde `covers/covers.html` (HTML + SVG con las
+fuentes reales) capturado con Playwright en dos tamaños: A5 (vídeo, misma proporción que
+las páginas para que el libro cerrado no se descuadre) y 1600×2560 (eBook para web y KDP).
+La dirección de arte está en `covers/PHILOSOPHY.md`.
+
 ## Añadir un libro nuevo (p. ej. «Comer sin hambre»)
 
 1. Exporta portada (`cover.jpg`) y ~15 páginas (`page-01.jpg`…) a `public/books/<slug>/`.
