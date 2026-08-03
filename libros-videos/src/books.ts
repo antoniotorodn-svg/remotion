@@ -19,7 +19,7 @@ export const BOOKS: Book[] = [
 		accent: 'con SIBO',
 		subtitle: 'La dieta baja en FODMAP, bien hecha, bien medida y con fecha de caducidad',
 		pages: 17,
-		paperPages: 156,
+		paperPages: 164,
 		claim: 'No hay alimentos prohibidos. Hay cantidades.',
 	},
 	{
@@ -29,7 +29,7 @@ export const BOOKS: Book[] = [
 		accent: 'diabetes',
 		subtitle: 'Qué le hace cada comida a tu glucosa, y qué hacer con ello',
 		pages: 14,
-		paperPages: 124,
+		paperPages: 132,
 		claim: 'No es solo cuánto sube. Es cuánto tiempo pasas arriba.',
 	},
 	{
@@ -48,9 +48,19 @@ export const BOOKS: Book[] = [
 		titleLines: ['Comer en la', 'menopausia'],
 		accent: 'menopausia',
 		subtitle: 'La menopausia no engorda: lo que de verdad cambia en tu cuerpo, y qué hacer con ello',
-		pages: 15,
-		paperPages: 84,
+		pages: 14,
+		paperPages: 88,
 		claim: 'No engordas por la menopausia. Cambias de sitio la grasa.',
+	},
+	{
+		slug: 'comer-con-glp1',
+		compositionId: 'ComerConGlp1',
+		titleLines: ['Comer', 'con GLP-1'],
+		accent: 'con GLP-1',
+		subtitle: 'Semaglutida y tirzepatida: cómo comer mientras adelgazas para no perder músculo, y qué pasa cuando lo dejas',
+		pages: 15,
+		paperPages: 88,
+		claim: 'El fármaco te quita el hambre. No te enseña a comer.',
 	},
 ];
 
