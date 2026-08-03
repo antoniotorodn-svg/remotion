@@ -26,8 +26,20 @@ REMOTION_BROWSER_EXECUTABLE=/opt/pw-browsers/chromium_headless_shell-1194/chrome
 
 Sin esa variable, Remotion descarga/usa su propio Chrome (válido en local).
 
+**Después de renderizar, ejecuta siempre `./encode-web.sh`**: convierte los MP4 a
+yuv420p rango limitado BT.709, quita la pista de audio muda y aplica faststart.
+El render sale en yuvj420p full-range (por los frames JPEG), y ese formato falla
+o se ve mal en algunos decodificadores.
+
 Los MP4 resultantes se copian a `nutricionistaio/public/libros/<slug>/video.mp4`, donde los
 usa la ficha de producto `/libros/<slug>/`.
+
+## Portadas
+
+Las portadas de la colección se generan desde `covers/covers.html` (HTML + SVG con las
+fuentes reales) capturado con Playwright en dos tamaños: A5 (vídeo, misma proporción que
+las páginas para que el libro cerrado no se descuadre) y 1600×2560 (eBook para web y KDP).
+La dirección de arte está en `covers/PHILOSOPHY.md`.
 
 ## Añadir un libro nuevo (p. ej. «Comer sin hambre»)
 
