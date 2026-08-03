@@ -5,7 +5,7 @@
   "description": "Vídeos promocionales de los libros de Nutricionista.io (pasando páginas), renderizados con Remotion.",
   "scripts": {
     "studio": "remotion studio",
-    "render:all": "remotion render ComerConSibo out/comer-con-sibo.mp4 && remotion render ComerConDiabetes out/comer-con-diabetes.mp4 && remotion render ComerConSop out/comer-con-sop.mp4 && remotion render LaMenopausiaNoEngorda out/la-menopausia-no-engorda.mp4"
+    "render:all": "remotion render ComerConSibo out/comer-con-sibo.mp4 && remotion render ComerConDiabetes out/comer-con-diabetes.mp4 && remotion render ComerConSop out/comer-con-sop.mp4 && remotion render ComerEnLaMenopausia out/comer-en-la-menopausia.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.504",
