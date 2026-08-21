@@ -17,7 +17,8 @@ const INK = '#141414';
 const BANDA = '#FEC902';
 const TEXT_LIGHT = '#6B6B6B';
 
-const PAGE_H = 760;
+const PAGE_H = 760; // libros: lienzo cuadrado de 1080
+const PAGE_H_DOSIER = 1000; // dosieres: lienzo 4:5 de 1350, y hay que leerlos
 const PAGE_RATIO = 0.7048; // A5 de los PDFs web
 const COVER_RATIO = 0.625; // portada ebook 1600×2560
 
@@ -59,8 +60,11 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 		easing: Easing.bezier(0.22, 0.61, 0.36, 1),
 	});
 
-	const coverW = Math.round(PAGE_H * COVER_RATIO);
-	const pageW = Math.round(PAGE_H * PAGE_RATIO);
+	const esDosier = Boolean(book.cta);
+	const pageH = esDosier ? PAGE_H_DOSIER : PAGE_H;
+	const coverW = Math.round(pageH * (esDosier ? PAGE_RATIO : COVER_RATIO));
+	const pageW = Math.round(pageH * PAGE_RATIO);
+	const margen = esDosier ? 56 : 84;
 
 	return (
 		<AbsoluteFill style={{backgroundColor: SAND, fontFamily: 'DM Sans, sans-serif'}}>
@@ -77,7 +81,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 				<div
 					style={{
 						position: 'absolute',
-						top: 84,
+						top: margen,
 						left: 0,
 						right: 0,
 						textAlign: 'center',
@@ -91,14 +95,14 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 						}),
 					}}
 				>
-					NUTRICIONISTA.IO&nbsp;&nbsp;·&nbsp;&nbsp;NUEVO
+					NUTRICIONISTA.IO&nbsp;&nbsp;·&nbsp;&nbsp;{esDosier ? 'GRATIS' : 'NUEVO'}
 				</div>
 
 				{/* Pie: páginas y formatos */}
 				<div
 					style={{
 						position: 'absolute',
-						bottom: 84,
+						bottom: margen,
 						left: 0,
 						right: 0,
 						textAlign: 'center',
@@ -110,7 +114,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 						}),
 					}}
 				>
-					{book.paperPages} páginas · eBook y papel
+					{book.paperPages} páginas · {esDosier ? 'gratis, por privado' : 'eBook y papel'}
 				</div>
 
 				{/* Escenario con perspectiva */}
@@ -118,7 +122,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 					style={{
 						position: 'relative',
 						width: pageW,
-						height: PAGE_H,
+						height: pageH,
 						perspective: 2200,
 						scale: String(0.9 + enter * 0.1),
 						opacity: enter,
