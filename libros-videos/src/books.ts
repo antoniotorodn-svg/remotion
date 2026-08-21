@@ -20,6 +20,9 @@ export type Book = {
 	// Cierre. Sin `cta` se pinta el de Amazon, que es el de la colección.
 	// Los dosieres cierran con la palabra que hay que comentar.
 	cta?: {palabra: string; pie: string};
+	// Extensión de las imágenes. Los libros van en JPG; los dosieres en PNG,
+	// que es como salen del conversor de páginas de los PDF.
+	ext?: 'jpg' | 'png';
 };
 
 export const BOOKS: Book[] = [
@@ -86,6 +89,7 @@ export const DOSIERES: Book[] = [
 		claim: 'Comer menos cada vez no es la salida.',
 		carpeta: 'dosieres',
 		alto: 1350,
+		ext: 'png',
 		cta: {palabra: 'METABOLISMO', pie: 'Comenta la palabra y te lo mando por privado'},
 	},
 	{
@@ -99,6 +103,7 @@ export const DOSIERES: Book[] = [
 		claim: 'Casi todo el mundo empieza por el escalón de arriba.',
 		carpeta: 'dosieres',
 		alto: 1350,
+		ext: 'png',
 		cta: {palabra: 'PRIORIDADES', pie: 'Comenta la palabra y te lo mando por privado'},
 	},
 	{
@@ -112,6 +117,7 @@ export const DOSIERES: Book[] = [
 		claim: 'El número no se mueve. Tú sí.',
 		carpeta: 'dosieres',
 		alto: 1350,
+		ext: 'png',
 		cta: {palabra: 'PROGRESO', pie: 'Comenta la palabra y te lo mando por privado'},
 	},
 	{
@@ -125,6 +131,7 @@ export const DOSIERES: Book[] = [
 		claim: 'La fuerza de voluntad se acaba. El entorno no.',
 		carpeta: 'dosieres',
 		alto: 1350,
+		ext: 'png',
 		cta: {palabra: 'MENTALIDAD', pie: 'Comenta la palabra y te lo mando por privado'},
 	},
 	{
@@ -138,20 +145,22 @@ export const DOSIERES: Book[] = [
 		claim: 'Salir a comer no tiene por qué costarte la semana.',
 		carpeta: 'dosieres',
 		alto: 1350,
+		ext: 'png',
 		cta: {palabra: 'FUERA', pie: 'Comenta la palabra y te lo mando por privado'},
 	},
 	{
-		slug: 'regalo',
-		compositionId: 'DosierRegalo',
-		titleLines: ['Empieza', 'por aquí'],
-		accent: 'por aquí',
-		subtitle: 'Lo que de verdad decide si pierdes grasa, en orden, y un plan de catorce días',
+		slug: 'errores',
+		compositionId: 'DosierErrores',
+		titleLines: ['Los fallos', 'de siempre'],
+		accent: 'de siempre',
+		subtitle: 'Los errores que frenan tus resultados, y qué hacer en su lugar',
 		pages: 10,
-		paperPages: 17,
-		claim: 'El orden importa más que el esfuerzo.',
+		paperPages: 16,
+		claim: 'No es que te falte voluntad.',
 		carpeta: 'dosieres',
 		alto: 1350,
-		cta: {palabra: 'REGALO', pie: 'Comenta la palabra y te lo mando por privado'},
+		ext: 'png',
+		cta: {palabra: 'ERRORES', pie: 'Comenta la palabra y te lo mando por privado'},
 	},
 ];
 

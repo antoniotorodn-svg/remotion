@@ -25,9 +25,12 @@ const FLIP_DUR = 10;
 const DWELL = 4;
 
 const pageSrc = (book: Book, i: number) =>
-	staticFile(`${book.carpeta ?? 'books'}/${book.slug}/page-${String(i + 1).padStart(2, '0')}.jpg`);
+	staticFile(
+		`${book.carpeta ?? 'books'}/${book.slug}/page-${String(i + 1).padStart(2, '0')}.${book.ext ?? 'jpg'}`,
+	);
 
-const coverSrc = (book: Book) => staticFile(`${book.carpeta ?? 'books'}/${book.slug}/cover.jpg`);
+const coverSrc = (book: Book) =>
+	staticFile(`${book.carpeta ?? 'books'}/${book.slug}/cover.${book.ext ?? 'jpg'}`);
 
 export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 	const frame = useCurrentFrame();
