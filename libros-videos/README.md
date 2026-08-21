@@ -29,6 +29,21 @@ Sin esa variable, Remotion descarga/usa su propio Chrome (válido en local).
 Los MP4 resultantes se copian a `nutricionistaio/public/libros/<slug>/video.mp4`, donde los
 usa la ficha de producto `/libros/<slug>/`.
 
+## Los dosieres de Instagram
+
+Las doce publicaciones fijas del feed usan **la misma composición**: portada,
+páginas pasando y cierre. Lo único que cambia es que el cierre no vende un
+libro, pide un comentario (`cta.palabra`), y que el lienzo va a 4:5
+(1080×1350) en vez de cuadrado, que es lo que más ocupa en el feed.
+
+- Datos: `DOSIERES` en `src/books.ts`.
+- Imágenes: `public/dosieres/<slug>/cover.jpg` + `page-01.jpg`…, extraídas
+  igual que las de los libros.
+- Render: `npm run render:dosieres`.
+
+La palabra del cierre tiene que existir en `instagram_automations` del panel
+o quien comente no recibirá nada. Eso se comprueba en el panel, no aquí.
+
 ## Añadir un libro nuevo (p. ej. «Comer sin hambre»)
 
 1. Exporta portada (`cover.jpg`) y ~15 páginas (`page-01.jpg`…) a `public/books/<slug>/`.

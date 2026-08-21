@@ -24,8 +24,10 @@ const COVER_RATIO = 0.625; // portada ebook 1600×2560
 const FLIP_DUR = 10;
 const DWELL = 4;
 
-const pageSrc = (slug: string, i: number) =>
-	staticFile(`books/${slug}/page-${String(i + 1).padStart(2, '0')}.jpg`);
+const pageSrc = (book: Book, i: number) =>
+	staticFile(`${book.carpeta ?? 'books'}/${book.slug}/page-${String(i + 1).padStart(2, '0')}.jpg`);
+
+const coverSrc = (book: Book) => staticFile(`${book.carpeta ?? 'books'}/${book.slug}/cover.jpg`);
 
 export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 	const frame = useCurrentFrame();
@@ -162,7 +164,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 								}}
 							>
 								<Img
-									src={pageSrc(book.slug, i)}
+									src={pageSrc(book, i)}
 									style={{width: '100%', height: '100%', objectFit: 'cover'}}
 								/>
 								{/* La página se oscurece un poco al girar */}
@@ -197,7 +199,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 							}}
 						>
 							<Img
-								src={staticFile(`books/${book.slug}/cover.jpg`)}
+								src={coverSrc(book)}
 								style={{width: '100%', height: '100%', objectFit: 'cover'}}
 							/>
 						</div>
@@ -218,7 +220,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 					}}
 				>
 					<Img
-						src={staticFile(`books/${book.slug}/cover.jpg`)}
+						src={coverSrc(book)}
 						style={{
 							height: 560,
 							boxShadow: '0 24px 60px rgba(0,0,0,0.22)',
@@ -235,7 +237,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 								marginBottom: 26,
 							}}
 						>
-							YA DISPONIBLE
+							{book.cta ? 'DESCÁRGALO GRATIS' : 'YA DISPONIBLE'}
 						</div>
 						<div
 							style={{
@@ -291,10 +293,10 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 								),
 							}}
 						>
-							Cómpralo en Amazon
+							{book.cta ? book.cta.palabra : 'Cómpralo en Amazon'}
 						</div>
 						<div style={{marginTop: 34, fontSize: 24, color: TEXT_LIGHT}}>
-							nutricionista.io/libros
+							{book.cta ? book.cta.pie : 'nutricionista.io/libros'}
 						</div>
 					</div>
 				</AbsoluteFill>
