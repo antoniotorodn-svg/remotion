@@ -1,21 +1,22 @@
 {
-  "name": "libros-videos",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Vídeos promocionales de los libros de Nutricionista.io (pasando páginas), renderizados con Remotion.",
-  "scripts": {
-    "studio": "remotion studio",
-    "render:all": "remotion render ComerConSibo out/comer-con-sibo.mp4 && remotion render ComerConDiabetes out/comer-con-diabetes.mp4 && remotion render ComerConSop out/comer-con-sop.mp4 && remotion render LaMenopausiaNoEngorda out/la-menopausia-no-engorda.mp4"
-  },
-  "dependencies": {
-    "@remotion/cli": "4.0.504",
-    "@remotion/fonts": "4.0.504",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "remotion": "4.0.504"
-  },
-  "devDependencies": {
-    "@types/react": "19.0.0",
-    "typescript": "5.8.2"
-  }
+	"name": "libros-videos",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Vídeos de los libros de Nutricionista.io y de los dosieres de Instagram (pasando páginas), renderizados con Remotion.",
+	"scripts": {
+		"studio": "remotion studio",
+		"render:all": "remotion render ComerConSibo out/comer-con-sibo.mp4 && remotion render ComerConDiabetes out/comer-con-diabetes.mp4 && remotion render ComerConSop out/comer-con-sop.mp4 && remotion render LaMenopausiaNoEngorda out/la-menopausia-no-engorda.mp4",
+		"render:dosieres": "remotion render DosierMetabolismo out/dosier-metabolismo.mp4 && remotion render DosierPrioridades out/dosier-prioridades.mp4 && remotion render DosierErrores out/dosier-errores.mp4 && remotion render DosierProgreso out/dosier-progreso.mp4 && remotion render DosierMentalidad out/dosier-mentalidad.mp4 && remotion render DosierFueraDeCasa out/dosier-fuera-de-casa.mp4"
+	},
+	"dependencies": {
+		"@remotion/cli": "4.0.504",
+		"@remotion/fonts": "4.0.504",
+		"react": "19.0.0",
+		"react-dom": "19.0.0",
+		"remotion": "4.0.504"
+	},
+	"devDependencies": {
+		"@types/react": "19.0.0",
+		"typescript": "5.8.2"
+	}
 }
