@@ -1,0 +1,47 @@
+name: Render libros-videos
+
+# Renderiza los vídeos promocionales de los libros (libros-videos/) y deja los
+# MP4 en la rama `libros-videos-out` y como artefacto del run. Se lanza a mano.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: libros-videos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Instalar
+        run: npm ci
+      - name: Chromium de Remotion
+        run: npx remotion browser ensure
+      - name: Renderizar
+        run: npm run render:all -- --timeout=180000
+      - name: Artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: libros-videos
+          path: libros-videos/out/*.mp4
+          if-no-files-found: error
+      - name: Publicar en la rama libros-videos-out
+        run: |
+          set -e
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p /tmp/salida && cp libros-videos/out/*.mp4 /tmp/salida/
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan libros-videos-out
+          git rm -rfq . 
+          mkdir -p out && cp /tmp/salida/*.mp4 out/
+          git add out
+          git commit -m "Render de libros-videos ($GITHUB_SHA)"
+          git push --force origin libros-videos-out
