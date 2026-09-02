@@ -11,15 +11,15 @@ import {
 } from 'remotion';
 import {Book, COVER_FLIP, INTRO, LAST_DWELL, OUTRO, PER_PAGE, totalDuration} from './books';
 
-// Paleta de la colección (idéntica a las portadas y a la web)
+// Paleta de la colección (idéntica a la web). La banda del título y el botón
+// van del color de cada portada (book.color), no del amarillo de antes.
 const SAND = '#F6F3EE';
 const INK = '#141414';
-const BANDA = '#FEC902';
+const CREMA = '#F2EAD8';
 const TEXT_LIGHT = '#6B6B6B';
 
 const PAGE_H = 760;
 const PAGE_RATIO = 0.7048; // A5 de los PDFs web
-const COVER_RATIO = 0.625; // portada ebook 1600×2560
 
 const FLIP_DUR = 10;
 const DWELL = 4;
@@ -54,7 +54,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 		easing: Easing.bezier(0.22, 0.61, 0.36, 1),
 	});
 
-	const coverW = Math.round(PAGE_H * COVER_RATIO);
+	const coverW = Math.round(PAGE_H * book.coverRatio);
 	const pageW = Math.round(PAGE_H * PAGE_RATIO);
 
 	return (
@@ -105,7 +105,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 						}),
 					}}
 				>
-					{book.paperPages} páginas · eBook y papel
+					{book.paperPages} páginas · en PDF, descarga inmediata
 				</div>
 
 				{/* Escenario con perspectiva */}
@@ -250,7 +250,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 							{book.titleLines.map((line) => (
 								<div key={line}>
 									{line === book.accent ? (
-										<span style={{background: BANDA, padding: '0 10px', marginLeft: -10}}>
+										<span style={{background: book.color, color: CREMA, padding: '0 10px', marginLeft: -10}}>
 											{line}
 										</span>
 									) : (
@@ -275,8 +275,8 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 							style={{
 								display: 'inline-flex',
 								alignItems: 'center',
-								background: INK,
-								color: '#fff',
+								background: book.color,
+								color: CREMA,
 								fontWeight: 700,
 								fontSize: 30,
 								padding: '24px 52px',
@@ -291,7 +291,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 								),
 							}}
 						>
-							Cómpralo en Amazon
+							Consíguelo en PDF
 						</div>
 						<div style={{marginTop: 34, fontSize: 24, color: TEXT_LIGHT}}>
 							nutricionista.io/libros
