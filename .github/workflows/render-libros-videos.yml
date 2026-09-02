@@ -16,16 +16,16 @@ jobs:
       run:
         working-directory: libros-videos
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
       - name: Instalar
         run: npm ci
       - name: Chromium de Remotion
         run: npx remotion browser ensure
       - name: Renderizar
-        run: npm run render:all -- --timeout=180000
+        run: npm run render:all
       - name: Artefacto
         uses: actions/upload-artifact@v4
         with:
