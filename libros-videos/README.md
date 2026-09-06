@@ -1,7 +1,10 @@
-# Vídeos de los libros — Nutricionista.io
+# Vídeos de producto — Nutricionista.io
 
-Proyecto Remotion independiente (no forma parte del monorepo: está fuera de `packages/**`)
-que genera un vídeo cuadrado (1080×1080, 30 fps, ~14 s) por cada guía de la colección
+Proyecto Remotion independiente (no forma parte del monorepo: está fuera de `packages/**`).
+La carpeta se llama `libros-videos` porque empezó con los libros, pero ya vive aquí
+también el mosaico de los menús (ver el final).
+
+De los libros genera un vídeo cuadrado (1080×1080, 30 fps, ~14 s) por cada guía de la colección
 «Comer con—»: la portada entra, el libro se abre, pasan las páginas reales con un giro 3D
 y cierra con el CTA «Consíguelo en PDF» (desde el 2-sep-2026 no se enlaza a Amazon).
 
