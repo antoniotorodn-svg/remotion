@@ -2,6 +2,7 @@ import React from 'react';
 import {Composition, staticFile} from 'remotion';
 import {loadFont} from '@remotion/fonts';
 import {BookPromo} from './BookPromo';
+import {MenusPromo} from './MenusPromo';
 import {BOOKS, totalDuration} from './books';
 
 // Fuentes reales de los libros (mismas que la maquetación de los PDFs)
@@ -31,6 +32,16 @@ export const RemotionRoot: React.FC = () => {
 					defaultProps={{book}}
 				/>
 			))}
+			{/* Mosaico de platos de /menus/. 16 s en bucle: la duración tiene que
+			    seguir siendo múltiplo de 120 (los cuatro mensajes de la tarjeta). */}
+			<Composition
+				id="MenusPromo"
+				component={MenusPromo}
+				durationInFrames={480}
+				fps={30}
+				width={1920}
+				height={1080}
+			/>
 		</>
 	);
 };

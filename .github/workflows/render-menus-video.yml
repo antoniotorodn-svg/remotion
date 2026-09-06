@@ -1,0 +1,95 @@
+name: Render menús-video
+
+# Renderiza el mosaico de platos de /menus/ (composición MenusPromo).
+#
+# Dos cosas en una pasada:
+#   1. Baja y recorta las fotos de los platos y las COMMITEA en la rama de
+#      trabajo, para que el proyecto quede autocontenido y se pueda abrir el
+#      studio sin volver a bajarlas.
+#   2. Renderiza el MP4 y el póster, y los deja en la rama `menus-video-out`
+#      (y como artefacto del run).
+#
+# El entorno de Claude Code no puede instalar paquetes de npm ni llegar al
+# bucket, así que esto es lo único que puede renderizar.
+on:
+  workflow_dispatch:
+  # Temporal: `workflow_dispatch` solo se puede lanzar desde la rama por
+  # defecto, así que mientras se trabaja en esta rama se dispara al pushear.
+  # QUITAR cuando el vídeo esté aprobado.
+  push:
+    branches: [claude/recipe-books-web-sale-oyaf7j]
+    paths:
+      - 'libros-videos/src/MenusPromo.tsx'
+      - 'libros-videos/src/menus-platos.ts'
+      - 'libros-videos/src/Root.tsx'
+      - 'libros-videos/scripts/traer-fotos-menus.sh'
+      - '.github/workflows/render-menus-video.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: ImageMagick
+        run: |
+          command -v magick >/dev/null 2>&1 || command -v convert >/dev/null 2>&1 \
+            || (sudo apt-get update && sudo apt-get install -y imagemagick)
+
+      - name: Fotos de los platos
+        working-directory: libros-videos
+        run: npm run fotos
+
+      - name: Guardar las fotos en la rama
+        run: |
+          set -e
+          if [ -n "$(git status --porcelain libros-videos/public/menus)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add libros-videos/public/menus
+            git commit -m "Fotos de los platos del vídeo de menús"
+            git push origin HEAD:"${GITHUB_REF_NAME}"
+          else
+            echo "Sin fotos nuevas."
+          fi
+
+      - name: Instalar
+        working-directory: libros-videos
+        run: npm ci
+
+      - name: Chromium de Remotion
+        working-directory: libros-videos
+        run: npx remotion browser ensure
+
+      - name: Renderizar
+        working-directory: libros-videos
+        run: npm run render:menus
+
+      - name: Artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: menus-video
+          path: |
+            libros-videos/out/menus-platos.mp4
+            libros-videos/out/menus-platos.jpg
+          if-no-files-found: error
+
+      - name: Publicar en la rama menus-video-out
+        run: |
+          set -e
+          mkdir -p /tmp/salida && cp libros-videos/out/menus-platos.* /tmp/salida/
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan menus-video-out
+          git rm -rfq .
+          mkdir -p out && cp /tmp/salida/* out/
+          git add out
+          git commit -m "Render de MenusPromo ($GITHUB_SHA)"
+          git push --force origin menus-video-out

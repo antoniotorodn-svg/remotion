@@ -41,3 +41,27 @@ usa la ficha de producto `/libros/<slug>/`.
 GitHub Actions (`workflow_dispatch`) y deja los MP4 en la rama
 `libros-videos-out`, además de subirlos como artefacto del run. Es lo que se usa
 cuando el entorno no puede instalar paquetes (el registro npm bloqueado).
+
+## El mosaico de platos de /menus/
+
+`MenusPromo` (1920×1080, 16 s, **en bucle**) es la ilustración en movimiento de
+la página de los menús: cinco filas de platos reales pasando en direcciones
+alternas, con una tarjeta central que va relevando cuatro mensajes.
+
+```bash
+npm run fotos          # baja y recorta las 60 fotos a public/menus/ (una vez)
+npm run render:menus   # out/menus-platos.mp4 + out/menus-platos.jpg (póster)
+```
+
+Los platos se eligen en `src/menus-platos.ts`; las fotos salen del bucket
+público `recipe-images` de la app y se recortan a 520×520 para no meter 140 MB
+de PNG en el repo.
+
+**Cuidado con el bucle.** El vídeo se reproduce en la web sin corte, y eso
+descansa sobre cuatro cosas que tienen que seguir cuadrando con
+`durationInFrames`: el recorrido de cada fila, el latido de los azulejos (un
+número entero de vueltas), el destello (entra y sale de cuadro dentro del
+bucle) y los cuatro mensajes de 120 fotogramas. Si cambias la duración, que
+siga siendo múltiplo de 120.
+
+El MP4 y el póster se copian a `nutricionistaio/public/menus/`.
