@@ -78,6 +78,7 @@ jobs:
           name: menus-video
           path: |
             libros-videos/out/menus-platos.mp4
+            libros-videos/out/menus-platos.webm
             libros-videos/out/menus-platos.jpg
           if-no-files-found: error
 

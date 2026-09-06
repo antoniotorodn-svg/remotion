@@ -253,7 +253,7 @@ export const MenusPromo: React.FC = () => {
 						width: 1080,
 						padding: '58px 70px 64px',
 						borderRadius: 40,
-						background: 'rgba(250,249,247,.97)',
+						background: PALETA.cream,
 						boxShadow: '0 44px 110px rgba(28,28,28,.20)',
 					}}
 				>
