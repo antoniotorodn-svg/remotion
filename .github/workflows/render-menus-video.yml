@@ -79,12 +79,13 @@ jobs:
           path: |
             libros-videos/out/menus-platos.mp4
             libros-videos/out/menus-platos.jpg
+            libros-videos/out/menus-tira.jpg
           if-no-files-found: error
 
       - name: Publicar en la rama menus-video-out
         run: |
           set -e
-          mkdir -p /tmp/salida && cp libros-videos/out/menus-platos.* /tmp/salida/
+          mkdir -p /tmp/salida && cp libros-videos/out/menus-platos.* libros-videos/out/menus-tira.jpg /tmp/salida/
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout --orphan menus-video-out

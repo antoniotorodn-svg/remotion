@@ -182,7 +182,13 @@ const Texto: React.FC<{mensaje: Mensaje; opacidad: number; y: number}> = ({
 	</div>
 );
 
-export const MenusPromo: React.FC = () => {
+export type MenusPromoProps = {
+	/** Con la tarjeta de texto encima (el vídeo de la web) o solo el mosaico
+	 *  (la tira que va de cabecera en el banner de la newsletter). */
+	conTarjeta: boolean;
+};
+
+export const MenusPromo: React.FC<MenusPromoProps> = ({conTarjeta}) => {
 	const frame = useCurrentFrame();
 	const {durationInFrames, width, height} = useVideoConfig();
 	const progreso = frame / durationInFrames;
@@ -247,6 +253,7 @@ export const MenusPromo: React.FC = () => {
 			/>
 
 			{/* Tarjeta */}
+			{conTarjeta ? (
 			<AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
 				<div
 					style={{
@@ -300,6 +307,7 @@ export const MenusPromo: React.FC = () => {
 					</div>
 				</div>
 			</AbsoluteFill>
+			) : null}
 		</AbsoluteFill>
 	);
 };

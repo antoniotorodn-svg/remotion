@@ -41,6 +41,19 @@ export const RemotionRoot: React.FC = () => {
 				fps={30}
 				width={1920}
 				height={1080}
+				defaultProps={{conTarjeta: true}}
+			/>
+			{/* Solo el mosaico, sin la tarjeta: es la cabecera del banner de los
+			    menús en la newsletter, donde el texto lo pone el propio correo.
+			    Se saca como imagen fija, no como vídeo. */}
+			<Composition
+				id="MenusTira"
+				component={MenusPromo}
+				durationInFrames={480}
+				fps={30}
+				width={1120}
+				height={420}
+				defaultProps={{conTarjeta: false}}
 			/>
 		</>
 	);

@@ -7,7 +7,7 @@
 		"studio": "remotion studio",
 		"render:all": "remotion render ComerConSibo out/comer-con-sibo.mp4 && remotion render ComerConDiabetes out/comer-con-diabetes.mp4 && remotion render ComerConSop out/comer-con-sop.mp4 && remotion render ComerEnLaMenopausia out/comer-en-la-menopausia.mp4",
 		"fotos": "bash scripts/traer-fotos-menus.sh",
-		"render:menus": "remotion render MenusPromo out/menus-platos.mp4 --crf=30 && remotion still MenusPromo out/menus-platos.jpg --frame=0 --jpeg-quality=82"
+		"render:menus": "remotion render MenusPromo out/menus-platos.mp4 --crf=30 && remotion still MenusPromo out/menus-platos.jpg --frame=0 --jpeg-quality=82 && remotion still MenusTira out/menus-tira.jpg --frame=90 --jpeg-quality=80"
 	},
 	"dependencies": {
 		"@remotion/cli": "4.0.504",
