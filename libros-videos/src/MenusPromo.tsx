@@ -126,7 +126,7 @@ const MENSAJES: Mensaje[] = [
 	{
 		titulo: (
 			<>
-				La primera semana, <span style={{color: PALETA.oro}}>gratis</span>
+				Pruébalo <span style={{color: PALETA.oro}}>7 días</span>
 			</>
 		),
 		pie: 'nutricionista.io/menus',
