@@ -13,17 +13,14 @@ name: Render menús-video
 # bucket, así que esto es lo único que puede renderizar.
 on:
   workflow_dispatch:
-  # Temporal: `workflow_dispatch` solo se puede lanzar desde la rama por
-  # defecto, así que mientras se trabaja en esta rama se dispara al pushear.
-  # QUITAR cuando el vídeo esté aprobado.
-  push:
-    branches: [claude/recipe-books-web-sale-oyaf7j]
-    paths:
-      - 'libros-videos/src/MenusPromo.tsx'
-      - 'libros-videos/src/menus-platos.ts'
-      - 'libros-videos/src/Root.tsx'
-      - 'libros-videos/scripts/traer-fotos-menus.sh'
-      - '.github/workflows/render-menus-video.yml'
+  # Aquí hubo un disparador `push` temporal sobre la rama de trabajo, porque
+  # `workflow_dispatch` solo se lanza desde la rama por defecto y hacía falta
+  # ver cada cambio del vídeo renderizado. El vídeo ya está, así que se quita:
+  # dejarlo significaba re-renderizar el vídeo entero cada vez que alguien
+  # tocara uno de esos ficheros por cualquier otro motivo.
+  #
+  # Si hay que volver a iterarlo, se vuelve a añadir un `push:` con la rama
+  # de turno y se quita al terminar.
 
 permissions:
   contents: write
