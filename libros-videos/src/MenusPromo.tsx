@@ -112,8 +112,13 @@ const MENSAJES: Mensaje[] = [
 		pie: 'Desayuno, comida y cena, de lunes a domingo.',
 	},
 	{
-		titulo: <>La compra, ya hecha</>,
-		pie: 'La lista ordenada por pasillo. Una vuelta y la semana resuelta.',
+		// «La compra, ya hecha» daba a entender que la compra se la hacemos
+		// nosotros y se la llevamos a casa (lo vio Antonio el 12-sep-2026).
+		// Lo que se entrega es la LISTA: el trabajo hecho es el de pensarla.
+		// Tiene que caber en UNA línea: el hueco de la tarjeta son 232 px y a
+		// 82 px un título de dos líneas más el pie se sale.
+		titulo: <>La compra, ya pensada</>,
+		pie: 'La lista, ordenada por pasillo. Una vuelta y la semana resuelta.',
 	},
 	{
 		titulo: (
