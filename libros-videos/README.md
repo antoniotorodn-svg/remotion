@@ -4,9 +4,14 @@ Proyecto Remotion independiente (no forma parte del monorepo: está fuera de `pa
 La carpeta se llama `libros-videos` porque empezó con los libros, pero ya vive aquí
 también el mosaico de los menús (ver el final).
 
-De los libros genera un vídeo cuadrado (1080×1080, 30 fps, ~14 s) por cada guía de la colección
-«Comer con—»: la portada entra, el libro se abre, pasan las páginas reales con un giro 3D
-y cierra con el CTA «Consíguelo en PDF» (desde el 2-sep-2026 no se enlaza a Amazon).
+De los libros genera un vídeo cuadrado (1080×1080, 30 fps, ~14 s) por cada uno: la portada
+entra, el libro se abre, pasan las páginas reales con un giro 3D y cierra con el CTA
+«Consíguelo en PDF» (desde el 2-sep-2026 no se enlaza a Amazon).
+
+Son siete: las cuatro guías de la colección «Comer con—» y, desde el 13-sep-2026, los tres
+recetarios. Los recetarios son 6×9 pulgadas en vez del A5 de las guías, así que llevan
+`pageRatio` propio; y «Comer con ganas» tiene la cubierta amarilla, así que su banda del
+título va con tinta en vez de crema (`textoBanda`).
 
 ## Estructura
 
@@ -34,13 +39,14 @@ usa la ficha de producto `/libros/<slug>/`.
 
 ## Añadir un libro nuevo (p. ej. «Comer sin hambre»)
 
-1. Exporta portada (`cover.jpg`) y ~15 páginas (`page-01.jpg`…) a `public/books/<slug>/`.
+1. Exporta portada (`cover.jpg`, 1400 px de alto) y ~15 páginas (`page-01.jpg`…, 1200 px de
+   alto) a `public/books/<slug>/`.
 2. Añade la entrada en `src/books.ts` (el campo `pages` = nº de imágenes).
 3. Añade la línea de render en el script `render:all` de `package.json`.
 
 ## Renderizar sin npm a mano: GitHub Actions
 
-`.github/workflows/render-libros-videos.yml` renderiza los cuatro vídeos en
+`.github/workflows/render-libros-videos.yml` renderiza los siete vídeos en
 GitHub Actions (`workflow_dispatch`) y deja los MP4 en la rama
 `libros-videos-out`, además de subirlos como artefacto del run. Es lo que se usa
 cuando el entorno no puede instalar paquetes (el registro npm bloqueado).

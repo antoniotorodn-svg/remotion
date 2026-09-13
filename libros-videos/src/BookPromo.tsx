@@ -55,7 +55,8 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 	});
 
 	const coverW = Math.round(PAGE_H * book.coverRatio);
-	const pageW = Math.round(PAGE_H * PAGE_RATIO);
+	const pageW = Math.round(PAGE_H * (book.pageRatio ?? PAGE_RATIO));
+	const tintaBanda = book.textoBanda ?? CREMA;
 
 	return (
 		<AbsoluteFill style={{backgroundColor: SAND, fontFamily: 'DM Sans, sans-serif'}}>
@@ -250,7 +251,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 							{book.titleLines.map((line) => (
 								<div key={line}>
 									{line === book.accent ? (
-										<span style={{background: book.color, color: CREMA, padding: '0 10px', marginLeft: -10}}>
+										<span style={{background: book.color, color: tintaBanda, padding: '0 10px', marginLeft: -10}}>
 											{line}
 										</span>
 									) : (
@@ -276,7 +277,7 @@ export const BookPromo: React.FC<{book: Book}> = ({book}) => {
 								display: 'inline-flex',
 								alignItems: 'center',
 								background: book.color,
-								color: CREMA,
+								color: tintaBanda,
 								fontWeight: 700,
 								fontSize: 30,
 								padding: '24px 52px',

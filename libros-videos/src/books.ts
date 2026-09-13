@@ -14,6 +14,13 @@ export type Book = {
 	color: string;
 	// Proporción ancho/alto de cover.jpg: las portadas nuevas no son todas iguales.
 	coverRatio: number;
+	// Proporción ancho/alto de las páginas. Por defecto el A5 de los PDF de las
+	// guías; los recetarios son 6×9 pulgadas, que es más estrecho.
+	pageRatio?: number;
+	// Color del texto sobre la banda de `color`. Por defecto crema, que es lo
+	// que piden las portadas oscuras; las claras (el amarillo de «Comer con
+	// ganas») necesitan tinta o no se lee nada.
+	textoBanda?: string;
 };
 
 export const BOOKS: Book[] = [
@@ -66,6 +73,50 @@ export const BOOKS: Book[] = [
 		claim: 'No engordas por la menopausia. Cambias de sitio la grasa.',
 		color: '#bc5537',
 		coverRatio: 1024 / 1536,
+	},
+	{
+		slug: 'comer-sin-complicarte',
+		compositionId: 'ComerSinComplicarte',
+		titleLines: ['Comer', 'sin complicarte'],
+		accent: 'sin complicarte',
+		subtitle: '100 recetas para tu día a día',
+		pages: 16,
+		paperPages: 108,
+		claim: 'Resolver la comida también puede ser fácil.',
+		color: '#1c1c1c',
+		coverRatio: 2 / 3,
+		pageRatio: 432 / 648,
+	},
+	{
+		slug: 'comer-con-ganas',
+		compositionId: 'ComerConGanas',
+		titleLines: ['Comer', 'con ganas'],
+		accent: 'con ganas',
+		subtitle: '100 recetas para salir de la rutina',
+		pages: 16,
+		paperPages: 108,
+		claim: 'Que cocinar vuelva a darte ideas.',
+		// El amarillo de su cubierta. Con texto crema encima no se leería nada,
+		// así que esta banda va con tinta.
+		color: '#f2b705',
+		textoBanda: '#1c1c1c',
+		coverRatio: 2 / 3,
+		pageRatio: 432 / 648,
+	},
+	{
+		slug: 'comer-y-repetir',
+		compositionId: 'ComerYRepetir',
+		titleLines: ['Comer', 'y repetir'],
+		accent: 'y repetir',
+		subtitle: '100 recetas para disfrutar cocinando',
+		pages: 16,
+		paperPages: 108,
+		claim: 'Hay platos que merecen quedarse.',
+		// Su cubierta es arena y sobre el fondo del cierre no se vería; se usa el
+		// oro de la línea que llevan las tres portadas.
+		color: '#8a6a17',
+		coverRatio: 2 / 3,
+		pageRatio: 432 / 648,
 	},
 ];
 
