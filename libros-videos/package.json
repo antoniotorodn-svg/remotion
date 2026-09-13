@@ -7,7 +7,8 @@
     "studio": "remotion studio",
     "render:all": "remotion render ComerConSibo out/comer-con-sibo.mp4 && remotion render ComerConDiabetes out/comer-con-diabetes.mp4 && remotion render ComerConSop out/comer-con-sop.mp4 && remotion render ComerEnLaMenopausia out/comer-en-la-menopausia.mp4 && remotion render ComerSinComplicarte out/comer-sin-complicarte.mp4 && remotion render ComerConGanas out/comer-con-ganas.mp4 && remotion render ComerYRepetir out/comer-y-repetir.mp4",
     "fotos": "bash scripts/traer-fotos-menus.sh",
-    "render:menus": "remotion render MenusPromo out/menus-platos.mp4 --crf=30 && remotion still MenusPromo out/menus-platos.jpg --frame=0 --jpeg-quality=82 && remotion still MenusTira out/menus-tira.jpg --frame=90 --jpeg-quality=80"
+    "render:menus": "remotion render MenusPromo out/menus-platos.mp4 --crf=30 && remotion still MenusPromo out/menus-platos.jpg --frame=0 --jpeg-quality=82 && remotion still MenusTira out/menus-tira.jpg --frame=90 --jpeg-quality=80",
+    "still:cierres": "remotion still ComerConSibo out/cierre-comer-con-sibo.jpg --frame=-20 --jpeg-quality=82 && remotion still ComerConDiabetes out/cierre-comer-con-diabetes.jpg --frame=-20 --jpeg-quality=82 && remotion still ComerConSop out/cierre-comer-con-sop.jpg --frame=-20 --jpeg-quality=82 && remotion still ComerEnLaMenopausia out/cierre-comer-en-la-menopausia.jpg --frame=-20 --jpeg-quality=82 && remotion still ComerSinComplicarte out/cierre-comer-sin-complicarte.jpg --frame=-20 --jpeg-quality=82 && remotion still ComerConGanas out/cierre-comer-con-ganas.jpg --frame=-20 --jpeg-quality=82 && remotion still ComerYRepetir out/cierre-comer-y-repetir.jpg --frame=-20 --jpeg-quality=82"
   },
   "dependencies": {
     "@remotion/cli": "4.0.504",

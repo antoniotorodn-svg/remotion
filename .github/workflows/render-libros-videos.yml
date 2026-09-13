@@ -26,22 +26,29 @@ jobs:
         run: npx remotion browser ensure
       - name: Renderizar
         run: npm run render:all
+      # Un fotograma del cierre de cada vídeo. Es lo único que no se puede
+      # comprobar desde el contenedor de Claude Code: su Chromium no lleva
+      # H.264, así que los MP4 no se pueden abrir ahí y estos JPG sí.
+      - name: Fotograma del cierre
+        run: npm run still:cierres
       - name: Artefacto
         uses: actions/upload-artifact@v4
         with:
           name: libros-videos
-          path: libros-videos/out/*.mp4
+          path: |
+            libros-videos/out/*.mp4
+            libros-videos/out/*.jpg
           if-no-files-found: error
       - name: Publicar en la rama libros-videos-out
         run: |
           set -e
           cd "$GITHUB_WORKSPACE"
-          mkdir -p /tmp/salida && cp libros-videos/out/*.mp4 /tmp/salida/
+          mkdir -p /tmp/salida && cp libros-videos/out/*.mp4 libros-videos/out/*.jpg /tmp/salida/
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout --orphan libros-videos-out
           git rm -rfq . 
-          mkdir -p out && cp /tmp/salida/*.mp4 out/
+          mkdir -p out && cp /tmp/salida/*.mp4 /tmp/salida/*.jpg out/
           git add out
           git commit -m "Render de libros-videos ($GITHUB_SHA)"
           git push --force origin libros-videos-out
