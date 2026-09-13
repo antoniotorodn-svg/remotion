@@ -77,8 +77,11 @@ export const BOOKS: Book[] = [
 	{
 		slug: 'comer-sin-complicarte',
 		compositionId: 'ComerSinComplicarte',
-		titleLines: ['Comer', 'sin complicarte'],
-		accent: 'sin complicarte',
+		// Partido como en la cubierta («COMER SIN / COMPLICARTE»), que además es
+		// lo único que cabe: «sin complicarte» a 74 px se parte en dos y la banda
+		// del cierre sale en dos trozos.
+		titleLines: ['Comer sin', 'complicarte'],
+		accent: 'complicarte',
 		subtitle: '100 recetas para tu día a día',
 		pages: 16,
 		paperPages: 108,
