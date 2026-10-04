@@ -233,7 +233,7 @@ const RecursoAbajo: React.FC<{r: Recurso; enReel: (s: number) => number}> = ({r,
 					flexDirection: 'column',
 					justifyContent: 'center',
 					padding: '0 80px',
-					gap: 18,
+					gap: 30,
 				}}
 			>
 				{r.etiqueta && (
@@ -267,6 +267,7 @@ const RecursoAbajo: React.FC<{r: Recurso; enReel: (s: number) => number}> = ({r,
 				padding: '70px 80px',
 				display: 'flex',
 				flexDirection: 'column',
+				justifyContent: 'center',
 				gap: 34,
 				color: C.tiza,
 			}}
