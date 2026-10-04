@@ -112,7 +112,7 @@ jobs:
         run: |
           set -e
           npx remotion render ReelHablado out/reel-demo.mp4
-          for f in 30 150 330 420 560 700; do npx remotion still ReelHablado "out/reel-demo-$f.jpg" --frame=$f --jpeg-quality=80; done
+          for f in 45 140 230 400 520 600; do npx remotion still ReelHablado "out/reel-demo-$f.jpg" --frame=$f --jpeg-quality=80; done
 
       - name: Artefacto
         if: env.PASO != 'transcribir'
