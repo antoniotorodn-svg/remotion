@@ -1,0 +1,144 @@
+name: Reel hablado
+
+# Reels al estilo de @diegoabreuuu_ con la plantilla ReelHablado
+# (libros-videos/src/reel/). Se lanza a mano con el slug del reel y el id de
+# Drive de la grabación (compartida con «cualquiera con el enlace»):
+#
+#   paso = transcribir → baja el vídeo, lo transcribe con Whisper, calcula los
+#          cortes de silencios y sube subtitulos.json, tramos.json y
+#          transcripcion.txt a public/reels/<slug>/ en esta misma rama.
+#   paso = render      → baja el vídeo, monta props.json con reel.json y
+#          renderiza el MP4 (artefacto del run + rama reels-out).
+#   paso = demo        → la demo sin vídeo, para ver la plantilla.
+#
+# Se lanza a mano (workflow_dispatch, solo desde main) o, desde cualquier rama,
+# al subir libros-videos/reels-pedido.json con {paso, slug, drive_id, modelo}.
+#
+# El vídeo NO se sube al repositorio: se baja de Drive en cada run.
+on:
+  push:
+    paths:
+      - 'libros-videos/reels-pedido.json'
+  workflow_dispatch:
+    inputs:
+      paso:
+        description: 'transcribir | render | demo'
+        required: true
+        default: demo
+      slug:
+        description: 'Carpeta del reel en libros-videos/public/reels/'
+        required: false
+      drive_id:
+        description: 'Id de Drive del vídeo grabado'
+        required: false
+      modelo:
+        description: 'Modelo de Whisper (small, medium, large-v3)'
+        required: false
+        default: medium
+
+permissions:
+  contents: write
+
+jobs:
+  reel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: libros-videos
+    steps:
+      - uses: actions/checkout@v6
+      - name: Leer el pedido
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            P=reels-pedido.json
+            echo "PASO=$(jq -r '.paso // "demo"' $P)" >> "$GITHUB_ENV"
+            echo "SLUG=$(jq -r '.slug // ""' $P)" >> "$GITHUB_ENV"
+            echo "DRIVE_ID=$(jq -r '.drive_id // ""' $P)" >> "$GITHUB_ENV"
+            echo "MODELO=$(jq -r '.modelo // "medium"' $P)" >> "$GITHUB_ENV"
+          else
+            echo "PASO=${{ inputs.paso }}" >> "$GITHUB_ENV"
+            echo "SLUG=${{ inputs.slug }}" >> "$GITHUB_ENV"
+            echo "DRIVE_ID=$DRIVE_ID" >> "$GITHUB_ENV"
+            echo "MODELO=${{ inputs.modelo || 'medium' }}" >> "$GITHUB_ENV"
+          fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Bajar el vídeo de Drive
+        if: env.PASO != 'demo'
+        run: |
+          set -e
+          test -n "$SLUG" || { echo "Falta el slug"; exit 1; }
+          test -n "$DRIVE_ID" || { echo "Falta el drive_id"; exit 1; }
+          pip install -q gdown
+          mkdir -p "public/reels/$SLUG"
+          gdown --fuzzy "https://drive.google.com/file/d/$DRIVE_ID/view" -O "public/reels/$SLUG/video.mp4"
+          ls -lh "public/reels/$SLUG/video.mp4"
+
+      - name: Transcribir y cortar silencios
+        if: env.PASO == 'transcribir'
+        run: |
+          set -e
+          pip install -q faster-whisper
+          python scripts/preparar-reel.py "$SLUG" --modelo "$MODELO"
+          cat "public/reels/$SLUG/transcripcion.txt"
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "libros-videos/public/reels/$SLUG/subtitulos.json" "libros-videos/public/reels/$SLUG/tramos.json" "libros-videos/public/reels/$SLUG/transcripcion.txt"
+          git commit -m "Reel $SLUG: transcripción y cortes" || echo "Sin cambios"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - uses: actions/setup-node@v6
+        if: env.PASO != 'transcribir'
+        with:
+          node-version: 22
+      - name: Instalar
+        if: env.PASO != 'transcribir'
+        run: npm ci && npx remotion browser ensure
+
+      - name: Renderizar el reel
+        if: env.PASO == 'render'
+        run: |
+          set -e
+          python scripts/preparar-reel.py "$SLUG" --solo-props
+          npx remotion render ReelHablado "out/reel-$SLUG.mp4" --props="public/reels/$SLUG/props.json"
+          for f in 30 300 900; do npx remotion still ReelHablado "out/reel-$SLUG-$f.jpg" --props="public/reels/$SLUG/props.json" --frame=$f --jpeg-quality=80 || true; done
+
+      - name: Renderizar la demo
+        if: env.PASO == 'demo'
+        run: |
+          set -e
+          npx remotion render ReelHablado out/reel-demo.mp4
+          for f in 30 150 330 420 560 700; do npx remotion still ReelHablado "out/reel-demo-$f.jpg" --frame=$f --jpeg-quality=80; done
+
+      - name: Artefacto
+        if: env.PASO != 'transcribir'
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel-${{ env.SLUG || 'demo' }}
+          path: |
+            libros-videos/out/reel-*.mp4
+            libros-videos/out/reel-*.jpg
+          if-no-files-found: error
+
+      - name: Publicar en la rama reels-out
+        if: env.PASO != 'transcribir'
+        run: |
+          set -e
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p /tmp/salida && cp libros-videos/out/reel-* /tmp/salida/
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin reels-out || true
+          if git rev-parse --verify -q origin/reels-out >/dev/null; then
+            git checkout -B reels-out origin/reels-out
+          else
+            git checkout --orphan reels-out && git rm -rfq .
+          fi
+          mkdir -p out && cp /tmp/salida/* out/
+          git add out
+          git commit -m "Reel ${SLUG:-demo} ($GITHUB_SHA)" || echo "Sin cambios"
+          git push origin reels-out

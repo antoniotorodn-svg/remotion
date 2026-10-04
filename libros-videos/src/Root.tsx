@@ -4,6 +4,8 @@ import {loadFont} from '@remotion/fonts';
 import {BookPromo} from './BookPromo';
 import {MenusPromo} from './MenusPromo';
 import {BOOKS, totalDuration} from './books';
+import {ReelHablado, calcularReel} from './reel/ReelHablado';
+import {DEMO_REEL} from './reel/demo';
 
 // Fuentes reales de los libros (mismas que la maquetación de los PDFs)
 loadFont({family: 'Spectral', url: staticFile('fonts/Spectral-ExtraBold.ttf'), weight: '800'});
@@ -54,6 +56,19 @@ export const RemotionRoot: React.FC = () => {
 				width={1120}
 				height={420}
 				defaultProps={{conTarjeta: false}}
+			/>
+			{/* Reel hablado al estilo de @diegoabreuuu_ (src/reel/). La duración
+			    sale de los tramos; para un reel de verdad se le pasan sus props
+			    con --props (scripts/preparar-reel.py las genera). */}
+			<Composition
+				id="ReelHablado"
+				component={ReelHablado}
+				durationInFrames={900}
+				fps={30}
+				width={1080}
+				height={1920}
+				defaultProps={DEMO_REEL}
+				calculateMetadata={calcularReel}
 			/>
 		</>
 	);

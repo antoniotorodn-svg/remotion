@@ -74,3 +74,52 @@ bucle) y los cuatro mensajes de 120 fotogramas. Si cambias la duración, que
 siga siendo múltiplo de 120.
 
 El MP4 y el póster se copian a `nutricionistaio/public/menus/`.
+
+## Reel hablado (estilo @diegoabreuuu_)
+
+`ReelHablado` (1080×1920, 30 fps) monta un reel de «mini-clase hablada» como
+los de @diegoabreuuu_ (brief en la carpeta de Drive «Estilo diegoabreuuu_»):
+
+- **Arriba tu cara, abajo un recurso** que cambia según lo que dices: `cifra`
+  (la miniatura con el número), `imagen` (captura, foto), `video` o `pizarra`
+  (la lista de pasos que se va escribiendo y tachando). Sin recurso, la cara
+  ocupa toda la pantalla.
+- **Subtítulos** de 2-3 palabras, blancos, con las `claves` en amarillo.
+- **Gancho** arriba los primeros segundos y **CTA** amarillo «Comenta X y te
+  envío…» al final.
+- **Jump cuts**: los silencios se cortan solos (`tramos`).
+
+Código en `src/reel/`; la demo sin vídeo (`src/reel/demo.ts`) es la de por
+defecto en el Studio.
+
+### Un reel de verdad
+
+1. Grabar (vertical, plano medio fijo) y subir el vídeo a la carpeta de Drive,
+   compartido con «cualquiera con el enlace».
+2. `reels-pedido.json` = `{"paso": "transcribir", "slug": "<slug>", "drive_id": "<id>"}`
+   y push: el workflow **Reel hablado** baja el vídeo, lo transcribe con
+   Whisper (`scripts/preparar-reel.py`) y sube a `public/reels/<slug>/`
+   `subtitulos.json`, `tramos.json` y `transcripcion.txt`.
+3. Escribir `public/reels/<slug>/reel.json` mirando la transcripción
+   (todos los tiempos en segundos del vídeo ORIGINAL):
+
+   ```json
+   {
+     "claves": ["12", "kilos"],
+     "gancho": {"texto": "12 kilos sin pasar hambre", "resaltado": "12 kilos", "hasta": 3},
+     "recursos": [
+       {"tipo": "cifra", "desde": 0, "hasta": 6, "cifra": "-12 kg", "texto": "en 5 meses"},
+       {"tipo": "pizarra", "desde": 14, "hasta": 40, "titulo": "Lo que cambió",
+        "puntos": [{"texto": "Comer a la misma hora", "aparece": 16}]},
+       {"tipo": "imagen", "desde": 41, "hasta": 48, "src": "captura.jpg"}
+     ],
+     "cta": {"palabra": "MENÚ", "texto": "el menú completo", "desde": 52}
+   }
+   ```
+
+   Las imágenes de los recursos van en la misma carpeta.
+4. `reels-pedido.json` = `{"paso": "render", "slug": "<slug>", "drive_id": "<id>"}`
+   y push: el MP4 y tres fotogramas quedan como artefacto del run y en la rama
+   `reels-out`.
+
+`{"paso": "demo"}` renderiza la demo. El vídeo nunca se sube al repositorio.
